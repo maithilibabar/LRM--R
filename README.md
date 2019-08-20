@@ -1,4 +1,4 @@
-# LRM--R
+#LRM--R
 Linear Regression Model By Partial Variable Selection Method in R
 rm( list=ls())
 setwd("C:/CSUF Spring 2019/ISDS 574")
@@ -8,7 +8,7 @@ dat=read.csv("Data_Cleaningnew5.csv",head=TRUE, stringsAsFactors = F)
 dat1=dat[, -which(colnames(dat) %in% c('X'))]
 
 
-# Data partition into training=60% & Validation=40%
+#Data partition into training=60% & Validation=40%
 set.seed(1)
 id.train = sample(1:nrow(dat1), nrow(dat1)*.6)
 id.validate = setdiff(1:nrow(dat1), id.train)
@@ -28,10 +28,10 @@ part1 = names(obj1$coef)[-1]
 part2 = paste(part1, collapse = ' + ')
 part3 = paste0('Price ~ ', part2)
 
-#Model:Price=5464.24+(-144.82)*Age-08_04+2352.26*Automatic_airco+50.46*HP+9.282*Weight+372.344*PoweredWindows
-#           +721.45*Bovag_Guarnatee+(-3.0639)*Cc+12.5062*Quarterly_Tax+90.3255*Guarantee_Period+(-491.3987)*Boardcomputer
-#           +468.7497*grey+505.4193*Airbag_2+307.8550*Airco+241.2743*Metallic_Rim+206.5018*Mfr_Guarantee  
-#           +292.3398*Sport_Model+(-465.1757)*Backseat_Divider+403.7278*Automatic+205.5633*CD_Player
+#Model 1:Price=5464.24+(-144.82)*Age-08_04+2352.26*Automatic_airco+50.46*HP+9.282*Weight+372.344*PoweredWindows
+####### +721.45*Bovag_Guarnatee+(-3.0639)*Cc+12.5062*Quarterly_Tax+90.3255*Guarantee_Period+(-491.3987)*Boardcomputer
+####### +468.7497*grey+505.4193*Airbag_2+307.8550*Airco+241.2743*Metallic_Rim+206.5018*Mfr_Guarantee  
+####### +292.3398*Sport_Model+(-465.1757)*Backseat_Divider+403.7278*Automatic+205.5633*CD_Player
 
 #Checking if all the assumptions are satisfied by the above forward selection model
 
@@ -46,7 +46,7 @@ require(hydroGOF)
 rmse(dat1[id.validate, 'Price'], yhat)
 
 #Multiple R-squared:  0.8755,	Adjusted R-squared:  0.8713. 87% Vaiability in Price is explained by this model.F-significance- p-value: < 2.2e-16
-# RMSE= 1231.609
+#RMSE= 1231.609
 
 #Backward Elimination Method
 obj2 = step(obj.full, scope=list(lower=obj.null, upper=obj.full), direction='backward')
@@ -73,10 +73,10 @@ plot(obj2$residuals,obj2$fitted.values)# Homoscadesticity
 
 #Model By Backward Elimination Method:
 #Price = 5464.2433+(-144.8224)*Age_08_04 +50.4633*HP +403.7278*Automatic +(-3.0639)*CC +12.5062 *Quarterly_Tax + 
-#        9.2820*Weight +206.5018 *Mfr_Guarantee +721.4587*BOVAG_Guarantee +90.3255*Guarantee_Period + 
-#        505.4193 *Airbag_2 +307.8550*Airco +2352.2635*Automatic_airco + (-491.398)*Boardcomputer +205.5633*CD_Player + 
-#        372.3442*Powered_Windows +292.3398*Sport_Model +(-465.1757)*Backseat_Divider +241.2743*Metallic_Rim + 
-#        468.7497*grey
+####### 9.2820*Weight +206.5018 *Mfr_Guarantee +721.4587*BOVAG_Guarantee +90.3255*Guarantee_Period + 
+####### 505.4193 *Airbag_2 +307.8550*Airco +2352.2635*Automatic_airco + (-491.398)*Boardcomputer +205.5633*CD_Player + 
+####### 372.3442*Powered_Windows +292.3398*Sport_Model +(-465.1757)*Backseat_Divider +241.2743*Metallic_Rim + 
+####### 468.7497*grey
 
 #RMSE
 yhat1 = predict(obj2, newdata = dat1[id.validate, ])
@@ -96,12 +96,12 @@ summary(obj3)
 par(mfrow = c(2, 2))
 plot(obj3) 
 
-
+#Model by stepwise selection method
 #Price =5464.2433+(-144.8224)*Age_08_04 +2352.2635*Automatic_airco +50.4633*HP + 9.2820* Weight + 
-#        372.3442*Powered_Windows +721.4587*BOVAG_Guarantee + (-3.0639) *CC + 12.5062 *Quarterly_Tax + 
-#        90.3255 *Guarantee_Period +(-491.3987)*Boardcomputer +468.7497*grey +505.4193 *Airbag_2 +307.8550*Airco + 
-#        241.2743*Metallic_Rim +206.5018*Mfr_Guarantee +292.3398*Sport_Model +(-465.1757)*Backseat_Divider + 
-#         403.7278*Automatic +205.5633*CD_Player
+####### 372.3442*Powered_Windows +721.4587*BOVAG_Guarantee + (-3.0639) *CC + 12.5062 *Quarterly_Tax + 
+#######  90.3255 *Guarantee_Period +(-491.3987)*Boardcomputer +468.7497*grey +505.4193 *Airbag_2 +307.8550*Airco + 
+#######  241.2743*Metallic_Rim +206.5018*Mfr_Guarantee +292.3398*Sport_Model +(-465.1757)*Backseat_Divider + 
+#######  403.7278*Automatic +205.5633*CD_Player
 
 #RMSE
 yhat2 = predict(obj3, newdata = dat1[id.validate, ])
@@ -114,7 +114,7 @@ rmse(dat1[id.validate, 'Price'], yhat2)
 
 #RMSE are same. So we can choose any of the three.
 
-# Principal Component Analysis(PCA of Advanced feature of Product)
+#Principal Component Analysis(PCA of Advanced feature of Product)
 #Advanced features includes sports model, backseat_divider, CD_player, tow bar
 dat=read.csv("Data_Cleaningnew5.csv",head=TRUE, stringsAsFactors = F)
 dat1=dat[, -which(colnames(dat) %in% c('X'))]
@@ -128,4 +128,4 @@ obj4$x
 
 summary(obj4)
 
-# Three PCs cover more than 70% of the total variance.
+#Three PCs cover more than 70% of the total variance.
